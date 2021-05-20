@@ -1,6 +1,11 @@
 const express = require('express');
 const router = express.Router();
+const user = require('./user.controller');
+const passport = require('passport');
 
-router.get('/test', (req, res) => res.json({msg: 'users works'}))
+router.post('/', user.create);
+router.post('/login', user.login);
+router.get('/current', passport.authenticate('jwt', { session: false }), user.getCurrentUser);
+
 
 module.exports = router;
