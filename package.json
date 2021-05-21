@@ -6,6 +6,9 @@
   "scripts": {
     "start": "node server.js",
     "server": "nodemon server.js",
+    "client-install": "npm install --prefix client",
+    "client": "npm start --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -19,5 +22,9 @@
     "passport": "^0.4.1",
     "passport-jwt": "^4.0.0",
     "validator": "^13.6.0"
+  },
+  "proxy": "http://localhost:5000",
+  "devDependencies": {
+    "concurrently": "^6.1.0"
   }
 }
