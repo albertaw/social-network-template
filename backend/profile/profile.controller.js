@@ -3,7 +3,7 @@ const Profile = require('./profile.model');
 const User = require('../user/user.model');
 const validateProfileInput = require('../validation/profile');
 
-exports.getProfile = (req, res) => {
+exports.getCurrentUserProfile = (req, res) => {
     const errors = {};
 
     Profile.findOne({ user: req.user.id })

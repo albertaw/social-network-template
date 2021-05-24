@@ -7,6 +7,7 @@ const PostSchema = new mongoose.Schema({
     },
     text: { 
         type: String, 
+        maxlength: 82,
         required: true
     },
     name: {

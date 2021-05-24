@@ -1,4 +1,5 @@
 const User = require('./user.model');
+const Post = require('../post/post.model');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const keys = require('../../config/keys');
@@ -57,7 +58,7 @@ exports.login = (req, res) => {
                 .then(isMatch => {
                     if(isMatch) {
                         const payload = { id: user.id, name: user.name };
-                        jwt.sign(payload, keys.secretOrKey, { expiresIn: '1h' }, (err, token) => {
+                        jwt.sign(payload, keys.secretOrKey, { expiresIn: '1w' }, (err, token) => {
                             res.json({success: true, token: 'Bearer ' + token });
                         });
 
@@ -75,4 +76,16 @@ exports.getCurrentUser = (req, res) => {
         name: req.user.name,
         email: req.user.email
     }); 
+}
+
+exports.getPosts = (req, res) => {
+    Post.find({user: req.params.id})
+        .sort({createdAt: 'desc'})
+        .then(posts => {
+            res.json(posts)
+        })
+        .catch(err => {
+            res.send(err);
+        });
+
 }

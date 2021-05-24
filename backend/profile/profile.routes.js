@@ -3,11 +3,10 @@ const router = express.Router();
 const profile = require('./profile.controller');
 const passport = require('passport');
 
-// @desc Get current user's profile
-router.get('/', passport.authenticate('jwt', { session: false }), profile.getProfile);
-router.post('/', passport.authenticate('jwt', { session: false }), profile.createOrUpdate);
-router.get('/username/:username', profile.getByUsername);
-router.get('/user/:userId', profile.getByUserId);
-router.get('/all', profile.getAll);
+router.get('/api/profile', passport.authenticate('jwt', { session: false }), profile.getCurrentUserProfile);
+router.post('/api/profiles', passport.authenticate('jwt', { session: false }), profile.createOrUpdate);
+router.get('/api/profiles/username/:username', profile.getByUsername);
+router.get('/api/profiles/user/:userId', profile.getByUserId);
+router.get('/api/profiles', profile.getAll);
 
 module.exports = router;

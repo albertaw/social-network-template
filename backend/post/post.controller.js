@@ -5,7 +5,7 @@ const validatePostInput = require('../validation/post');
 
 exports.getAll = (req, res) => {
     Post.find()
-        .sort({date: -1})
+        .sort({createdAt: 'desc'})
         .then(posts => res.json(posts))
         .catch(err => res.status(404).send({nopostsfound: 'No posts found'}));
 }

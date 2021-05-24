@@ -3,9 +3,9 @@ const router = express.Router();
 const user = require('./user.controller');
 const passport = require('passport');
 
-router.post('/', user.create);
-router.post('/login', user.login);
-router.get('/current', passport.authenticate('jwt', { session: false }), user.getCurrentUser);
-
+router.post('/api/users/', user.create);
+router.post('/api/users/login', user.login);
+router.get('/api/user', passport.authenticate('jwt', { session: false }), user.getCurrentUser);
+router.get('/api/users/:id/posts', user.getPosts)
 
 module.exports = router;
