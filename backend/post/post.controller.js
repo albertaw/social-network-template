@@ -23,7 +23,9 @@ exports.create = (req, res) => {
         user: req.user.id
     });
 
-    newPost.save().then(post => res.json(post));
+    newPost.save()
+        .then(post => res.json(post))
+        .catch(err => res.send(err));
 }
 
 exports.getById = (req, res) => {
@@ -44,6 +46,7 @@ exports.remove = (req, res) => {
             })
             .catch(err => res.status(404).json({ postnotfound: 'No post found'}));
         })
+        .catch(err => res.send(err));
 }
 
 exports.likePost = (req, res) => {
@@ -58,7 +61,8 @@ exports.likePost = (req, res) => {
                 post.save().then(post => res.json(post));
             })
             .catch(err => res.status(404).json({ postnotfound: 'No post found'}));
-        });
+        })
+        .catch(err => res.send(err));
 }
 
 exports.unLikePost = (req, res) => {
@@ -74,7 +78,8 @@ exports.unLikePost = (req, res) => {
                 post.save().then(post => res.json(post));
             })
             .catch(err => res.status(404).json({ postnotfound: 'No post found'}));
-        });
+        })
+        .catch(err => res.send(err));
 }
 
 exports.comment = (req, res) => {

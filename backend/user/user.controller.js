@@ -34,7 +34,8 @@ exports.create = (req, res) => {
                     });
                 });
             }
-        });
+        })
+        .catch(err => res.send(err));
 }
 
 exports.login = (req, res) => {
@@ -67,7 +68,8 @@ exports.login = (req, res) => {
                         return res.status(400).json(errors);
                     }
                 });
-        });
+        })
+        .catch(err => res.send(err));
 }
 
 exports.getCurrentUser = (req, res) => {

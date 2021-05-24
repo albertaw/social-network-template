@@ -16,7 +16,7 @@ exports.getCurrentUserProfile = (req, res) => {
             res.json(profile);
         })
         .catch(err => {
-            res.status(404).json(err);
+            res.status(404).send(err);
         });
 }
 
@@ -55,6 +55,7 @@ exports.createOrUpdate = (req, res) => {
                 })
             }
         })
+        .catch(err => res.send(err));
 }
 
 exports.getByUsername = (req, res) => {
