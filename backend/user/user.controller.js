@@ -72,6 +72,14 @@ exports.login = (req, res) => {
         .catch(err => res.send(err));
 }
 
+exports.remove = (req, res) => {
+    User.findByIdAndRemove(req.params.id)
+        .then(user => {
+            res.sendStatus(204);
+        })
+        .catch(err => res.send(err));
+}
+
 exports.getCurrentUser = (req, res) => {
     res.json({
         id: req.user.id,

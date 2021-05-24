@@ -1,6 +1,11 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
+import jwt_decode from 'jwt-decode';
 import setAuthToken from '../utils//setAuthToken';
+import Dropdown from '../components/Dropdown';
+import DeleteAccountModal from '../components/DeleteAccountModal';
+import '../App.css';
 
 class Navbar extends Component {
     constructor(props) {
@@ -8,6 +13,9 @@ class Navbar extends Component {
         this.state = {
             isAuthenticated: false
         }
+
+        this.onLogoutClick = this.onLogoutClick.bind(this);
+        this.onDeleteAccountClick = this.onDeleteAccountClick.bind(this);
     }
 
     componentDidMount() {
@@ -16,28 +24,26 @@ class Navbar extends Component {
         }
     }
 
-    onLogoutClick(e) {
-        e.preventDefault();
+    onLogoutClick() {
         localStorage.removeItem('jwtToken');
         setAuthToken(false);
         window.location.href = '/';
     }
 
-    render() {
-        const { isAuthenticated } = this.state;
-        const authLinks = (
-            <ul className="navbar-nav">
-                <li className="nav-item"><Link className="nav-link" to="/dashboard">Dashboard</Link></li>
-                <li className="nav-item"><button className="btn btn-warning" onClick={this.onLogoutClick.bind(this)}>Logout</button></li>
-            </ul>
-        )
+    onDeleteAccountClick() {
+        const decoded = jwt_decode(localStorage.jwtToken);
+        console.log(decoded);
+        axios.delete('/api/users/' + decoded.id)
+            .then(res => {
+                //delete profile
+                localStorage.removeItem('jwtToken');
+                setAuthToken(false);
+                window.location.href = '/';
+            })
+            .catch(err => console.log(err.response.data));
+    }
 
-        const guestLinks = (
-            <ul className="navbar-nav"> 
-                <li className="nav-item"><Link className="nav-link" to="/signup">Signup</Link></li>
-                <li className="nav-item"><Link className="nav-link" to="/login">Login</Link></li>
-            </ul>
-        )
+    render() {
         return (
             <div className="navbar navbar-expand-sm navbar-dark bg-dark">
                 <div className="container">
@@ -46,9 +52,11 @@ class Navbar extends Component {
                     </ul>
                     <ul className="navbar-nav"> 
                         <li className="nav-item"><Link className="nav-link" to="/posts">Posts</Link></li>
-                        { isAuthenticated ? authLinks : null }
+                        <li className="nav-item"><Link className="nav-link" to="/dashboard">Dashboard</Link></li>
+                        <Dropdown onLogoutClick={this.onLogoutClick} />
                     </ul>
                 </div>
+                <DeleteAccountModal onDeleteAccountClick={this.onDeleteAccountClick} />
             </div>
         )
     }
