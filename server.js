@@ -9,7 +9,7 @@ const post = require('./backend/post/post.routes');
 
 const app = express();
 
-const db = require('./config/keys').mongoURI;
+const db = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/devsocial';
 mongoose
     .connect(db)
     .then(() => console.log('MongoDB connected'))
