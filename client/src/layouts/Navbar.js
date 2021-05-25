@@ -30,20 +30,26 @@ class Navbar extends Component {
         window.location.href = '/';
     }
 
-    onDeleteAccountClick() {
-        const decoded = jwt_decode(localStorage.jwtToken);
-        console.log(decoded);
-        axios.delete('/api/users/' + decoded.id)
-            .then(res => {
-                //delete profile
-                localStorage.removeItem('jwtToken');
-                setAuthToken(false);
-                window.location.href = '/';
-            })
-            .catch(err => console.log(err.response.data));
+    async onDeleteAccountClick() {
+        try {
+            await axios.delete('/api/user/posts');
+            await axios.delete('/api/user');
+            localStorage.removeItem('jwtToken');
+            setAuthToken(false);
+            window.location.href = '/';
+        } catch(err) {
+            console.log(err);
+        }
     }
 
     render() {
+        const { isAuthenticated } = this.state;
+        const authLinks = (
+            <ul className="navbar-nav">
+                <li className="nav-item"><Link className="nav-link" to="/dashboard">Dashboard</Link></li>
+                <Dropdown onLogoutClick={this.onLogoutClick} />
+            </ul>
+        )
         return (
             <div className="navbar navbar-expand-sm navbar-dark bg-dark">
                 <div className="container">
@@ -52,8 +58,7 @@ class Navbar extends Component {
                     </ul>
                     <ul className="navbar-nav"> 
                         <li className="nav-item"><Link className="nav-link" to="/posts">Posts</Link></li>
-                        <li className="nav-item"><Link className="nav-link" to="/dashboard">Dashboard</Link></li>
-                        <Dropdown onLogoutClick={this.onLogoutClick} />
+                        { isAuthenticated ? authLinks : null }
                     </ul>
                 </div>
                 <DeleteAccountModal onDeleteAccountClick={this.onDeleteAccountClick} />

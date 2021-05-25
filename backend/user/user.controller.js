@@ -73,8 +73,8 @@ exports.login = (req, res) => {
 }
 
 exports.remove = (req, res) => {
-    User.findByIdAndRemove(req.params.id)
-        .then(user => {
+    User.findByIdAndRemove(req.user.id)
+        .then(response => {
             res.sendStatus(204);
         })
         .catch(err => res.send(err));
@@ -98,4 +98,12 @@ exports.getPosts = (req, res) => {
             res.send(err);
         });
 
+}
+
+exports.deletePosts = (req, res) => {
+    Post.deleteMany({user: req.user.id})
+        .then(response => {
+            res.sendStatus(204);
+        })
+        .catch(err => res.send(err));
 }
