@@ -59,7 +59,7 @@ exports.login = (req, res) => {
                 .then(isMatch => {
                     if(isMatch) {
                         const payload = { id: user.id, name: user.name };
-                        jwt.sign(payload, keys.secretOrKey, { expiresIn: '1m' }, (err, token) => {
+                        jwt.sign(payload, keys.secretOrKey, { expiresIn: '1w' }, (err, token) => {
                             res.json({success: true, token: 'Bearer ' + token });
                         });
 
