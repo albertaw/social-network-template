@@ -35,7 +35,7 @@ exports.createOrUpdate = (req, res) => {
     if(typeof req.body.skills !== 'undefined') {
         profileFields.skills = req.body.skills.split(',');
     }
-
+    //if updating a profile
     Profile.findOne({ user: req.user.id })
         .then(profile => {
             if(profile) {
@@ -44,6 +44,7 @@ exports.createOrUpdate = (req, res) => {
                     { $set: profileFields }, 
                     { new: true }
                 ).then(profile => res.json(profile));
+            // otherwise create a new profile
             } else {
                 Profile.findOne({ username: profileFields.username }).then(profile => {
                     if(profile) {
