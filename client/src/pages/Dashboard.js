@@ -4,6 +4,7 @@ import jwt_decode from 'jwt-decode';
 import axios from 'axios';
 import classnames from 'classnames';
 import PostList from '../components/PostList';
+import checkTokenExpired from '../utils/checkTokenExpired';
 
 class Dashboard extends Component {
     constructor(props) {
@@ -20,10 +21,11 @@ class Dashboard extends Component {
     }
 
     componentDidMount() {
-        if(!localStorage.jwtToken) {
+        const token = localStorage.jwtToken;
+        if(!token) {
             this.props.history.push('/');
         } else {
-            const token = localStorage.jwtToken;
+            checkTokenExpired(token);
             const decoded = jwt_decode(token)
             this.setState({currentUser: decoded});
             axios.get('/api/users/' + decoded.id + '/posts')
@@ -43,6 +45,7 @@ class Dashboard extends Component {
 
     onSubmit(e) {
         e.preventDefault();
+        checkTokenExpired(localStorage.jwtToken);
         const postData = {
             name: this.state.currentUser.name,
             text: this.state.text

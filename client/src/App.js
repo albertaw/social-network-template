@@ -8,16 +8,11 @@ import Posts from './pages/Posts';
 import NotFound from './pages/NotFound';
 import jwt_decode from 'jwt-decode';
 import setAuthToken from './utils/setAuthToken';
+import checkTokenExpired from './utils/checkTokenExpired';
 
 if(localStorage.jwtToken) {
 	setAuthToken(localStorage.jwtToken)
-	const decoded = jwt_decode(localStorage.jwtToken);
-	const currentTime = Date.now() / 1000;
-	if(decoded.exp < currentTime) {
-		localStorage.removeItem('jwtToken');
-    	setAuthToken(false);
-		window.location.href = '/login';
-	}
+	checkTokenExpired();
 }
 
 function App() {
