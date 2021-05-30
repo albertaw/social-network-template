@@ -23,6 +23,13 @@ module.exports = function validateProfileInput(data) {
             errors.website = 'Not a valid URL';
         }
     }
+
+    if(!isEmpty(data.bio)) {
+        if(!Validator.isLength(data.bio, { min: 1, max: 82 })) {
+            errors.bio = "Bio should be max 82 characters";
+        }
+    }
+
     return {
         errors,
         isValid: isEmpty(errors)

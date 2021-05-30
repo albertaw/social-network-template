@@ -57,6 +57,7 @@ class Navbar extends Component {
                         <li className="navbar-brand">Dev Social</li>
                     </ul>
                     <ul className="navbar-nav"> 
+                        <li className="nav-item"><Link className="nav-link" to="/users">Users</Link></li>
                         <li className="nav-item"><Link className="nav-link" to="/posts">Posts</Link></li>
                         { isAuthenticated ? authLinks : null }
                     </ul>

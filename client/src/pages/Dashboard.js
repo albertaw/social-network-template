@@ -92,8 +92,8 @@ class Dashboard extends Component {
                                 </div>
 
                                 <div className="mb-3">
-                                        <input type="submit" className="form-control btn btn-warning btn-lg"  value="Create Post" />
-                                    </div>
+                                    <input type="submit" className="form-control btn btn-warning btn-lg"  value="Create Post" />
+                                </div>
                             </form>
                         </div>
                         <div className="row mt-5">

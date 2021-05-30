@@ -33,7 +33,9 @@ exports.createOrUpdate = (req, res) => {
     if(req.body.bio) profileFields.bio = req.body.bio;
     if(req.body.githubUsername) profileFields.githubUsername = req.body.githubUsername;
     if(typeof req.body.skills !== 'undefined') {
-        profileFields.skills = req.body.skills.split(',');
+        let skills = req.body.skills.split(',');
+        skills = skills.map(x => x.trim());
+        profileFields.skills = skills;
     }
     //if updating a profile
     Profile.findOne({ user: req.user.id })

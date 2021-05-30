@@ -5,8 +5,14 @@ const ProfileSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId, 
         ref: 'users'
     },
-    website: {
-        type: String
+    username: {
+        type: String,
+        required: true,
+        maxlength: 40
+    },
+    bio: {
+        type: String,
+        maxlength: 82
     },
     location: {
         type: String
@@ -15,7 +21,7 @@ const ProfileSchema = new mongoose.Schema({
         type: [String],
         required: true
     },
-    bio: {
+    website: {
         type: String
     },
     githubUsername: {

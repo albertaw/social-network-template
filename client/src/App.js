@@ -4,15 +4,17 @@ import Landing from './pages/Landing';
 import Signup from './pages/Signup';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
+import ProfileEdit from './pages/ProfileEdit';
 import Posts from './pages/Posts';
+import Profiles from './pages/Profiles';
 import NotFound from './pages/NotFound';
-import jwt_decode from 'jwt-decode';
 import setAuthToken from './utils/setAuthToken';
 import checkTokenExpired from './utils/checkTokenExpired';
 
 if(localStorage.jwtToken) {
-	setAuthToken(localStorage.jwtToken)
-	checkTokenExpired();
+	const token = localStorage.jwtToken;
+	setAuthToken(token)
+	checkTokenExpired(token);
 }
 
 function App() {
@@ -23,7 +25,9 @@ function App() {
 				<Route exact path='/signup' component={Signup} />
 				<Route exact path='/login' component={Login} />
 				<Route exact path='/dashboard' component={Dashboard} />
+				<Route exact path='/dashboard/profile' component={ProfileEdit} />
 				<Route exact path='/posts' component={Posts} />
+				<Route exact path='/users' component={Profiles} />
 				<Route component={NotFound} />
 			</Switch>
 		</Router>
