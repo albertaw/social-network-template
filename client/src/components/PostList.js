@@ -1,10 +1,8 @@
-import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import React from 'react';
 import PostItem from './PostItem';
 
 function PostList(props) {
-
-	const posts = props.posts.map((post) =>
+	const posts = props.posts.map(post =>
 		<PostItem
 			key={post._id}
             createdAt={post.createdAt}

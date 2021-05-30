@@ -9,6 +9,7 @@ class Posts extends Component {
 
         this.state = {
             posts: [],
+            errors: {}
 
         }
     }
@@ -16,7 +17,7 @@ class Posts extends Component {
     componentDidMount() {
         axios.get('/api/posts')
             .then(res => {
-                this.setState({posts: res.data})
+                this.setState({posts: res.data});
             })
             .catch(err => {
                 this.setState({errors: err.response.data});

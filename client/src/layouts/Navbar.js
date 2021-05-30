@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import jwt_decode from 'jwt-decode';
 import setAuthToken from '../utils//setAuthToken';
 import Dropdown from '../components/Dropdown';
 import DeleteAccountModal from '../components/DeleteAccountModal';
@@ -34,6 +33,7 @@ class Navbar extends Component {
         try {
             await axios.delete('/api/user/posts');
             await axios.delete('/api/user');
+            //delete profile
             localStorage.removeItem('jwtToken');
             setAuthToken(false);
             window.location.href = '/';

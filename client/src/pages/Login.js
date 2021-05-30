@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import classnames from 'classnames';
 import axios from 'axios';
 import setAuthToken from '../utils//setAuthToken';
-import jwt_decode from 'jwt-decode';
 
 class Login extends Component {
     constructor(props) {

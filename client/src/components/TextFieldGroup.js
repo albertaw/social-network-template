@@ -1,7 +1,7 @@
 import React from 'react';
 import classnames from 'classnames';
 
-const TextFieldGroup = (props) => {
+function TextFieldGroup(props) {
     return (
         <div className="mb-3">
             <input 
