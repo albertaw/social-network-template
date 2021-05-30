@@ -31,9 +31,10 @@ class Navbar extends Component {
 
     async onDeleteAccountClick() {
         try {
+            //delete profile
             await axios.delete('/api/user/posts');
             await axios.delete('/api/user');
-            //delete profile
+            
             localStorage.removeItem('jwtToken');
             setAuthToken(false);
             window.location.href = '/';

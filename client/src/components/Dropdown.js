@@ -8,7 +8,7 @@ function Dropdown(props) {
                 <span className="fas fa-user-circle fa-2x"></span>
             </div>
             <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenu">
-                <li><Link className="dropdown-item" to="dashboard/profile">Edit profile</Link></li>
+                <li><Link className="dropdown-item" to="/dashboard/profile">Edit profile</Link></li>
                 <li><button className="dropdown-item" onClick={props.onLogoutClick}>Logout</button></li>
                 <li><button className="dropdown-item" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete account</button></li>
             </ul>

@@ -25,12 +25,18 @@ class Posts extends Component {
     }
 
     render() {
+        let postsView;
+        if (this.state.posts.length === 0) {
+            postsView = <p className="text-center">No posts have been created</p>
+        } else {
+            postsView = <PostList posts={this.state.posts} />
+        }
         return (
             <div>
                 <Navbar />
                 <div className="container mt-5">
                     <div className="col-md-6 offset-md-3">
-                        <PostList posts={this.state.posts} />
+                        {postsView}
                     </div>
                 </div>
             </div>
