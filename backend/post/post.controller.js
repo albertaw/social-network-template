@@ -34,6 +34,7 @@ exports.getById = (req, res) => {
         .catch(err => res.status(404).send({nopostfound: 'No post found with that id'}));
 }
 
+//TODO refactor
 exports.remove = (req, res) => {
     Profile.findOne({ user: req.user.id })
         .then(profile => {

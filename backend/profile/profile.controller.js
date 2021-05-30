@@ -20,6 +20,14 @@ exports.getCurrentUserProfile = (req, res) => {
         });
 }
 
+exports.deleteCurrentUserProfile = (req, res) => {
+    Profile.findOneAndDelete({user: req.user.id})
+        .then(response => {
+            res.sendStatus(204);
+        })
+        .catch(err => res.send(err));
+}
+
 exports.createOrUpdate = (req, res) => {
     const { errors, isValid } = validateProfileInput(req.body);
      if(!isValid) {
