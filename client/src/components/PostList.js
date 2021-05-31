@@ -6,7 +6,7 @@ function PostList(props) {
 		<PostItem
 			key={post._id}
             createdAt={post.createdAt}
-			name={post.name}
+			name={post.user.name}
 			text={post.text} />
 	);
 

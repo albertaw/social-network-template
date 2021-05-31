@@ -90,6 +90,7 @@ exports.getCurrentUser = (req, res) => {
 
 exports.getPosts = (req, res) => {
     Post.find({user: req.params.id})
+        .populate('user', 'name')
         .sort({createdAt: 'desc'})
         .then(posts => {
             res.json(posts)
