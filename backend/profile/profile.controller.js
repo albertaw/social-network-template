@@ -47,7 +47,7 @@ exports.createOrUpdate = (req, res) => {
     Profile.findOne({ user: req.user.id })
         .then(profile => {
             if(profile) {
-                Profile.findOne({ username: profileFields.username }).then(profile => {
+                Profile.findOne({ $and: [{ username: profileFields.username }, {user: {$ne: req.user.id}}]}).then(profile => {
                     if(profile) {
                         errors.username = "That username already exists";
                         res.status(400).json(errors);
