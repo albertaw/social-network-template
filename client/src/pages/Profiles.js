@@ -28,8 +28,12 @@ class Profiles extends Component {
             <div>
                 <Navbar />
                 <div className="container">
-                <h2 className="mt-5 mb-5 fw-bold text-center">Users</h2>
-                <ProfileList profiles={this.state.profiles} />
+                    <div className="col-md-6 offset-md-3">
+                        <div className="row">
+                            <h2 className="mt-5 mb-5 fw-bold text-center">Users</h2>
+                            <ProfileList profiles={this.state.profiles} />
+                        </div>
+                    </div>
                 </div>
             </div>
         )

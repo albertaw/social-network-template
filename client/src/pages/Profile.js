@@ -58,26 +58,31 @@ class Profile extends Component {
                         <div className="col-md-6 offset-md-3">
                             {emptyView}
                             {this.state.name && (<h2 className="mt-5 text-center">{this.state.name}</h2>)}
-                            {this.state.username && (<p className="lead text-center">@{this.state.username}</p>)}
-                            {this.state.bio && (<div className="row">
-                                <p className="col-md-2 fw-bold">Bio:</p>
-                                <p className="col-md-10">{this.state.bio}</p>
+                            {this.state.username && (<p className="text-center mb-3">@{this.state.username}</p>)}
+                            {this.state.bio && (<div className="row mb-2">
+                                <h4>Bio</h4>
+                                <hr />
+                                <p>{this.state.bio}</p>
                             </div>)}
-                            {this.state.skills && (<div className="row">
-                                <p className="col-md-2 fw-bold">Skills:</p>
-                                <p className="col-md-10">{this.state.skills}</p>
+                            {this.state.skills && (<div className="row mb-2">
+                                <h4>Skills</h4>
+                                <hr />
+                                <p>{this.state.skills}</p>
                             </div>)}
-                            {this.state.location && (<div className="row">
-                                <p className="col-md-2 fw-bold">Location:</p>
-                                <p className="col-md-10">{this.state.location}</p>
+                            {this.state.location && (<div className="row mb-2">
+                                <h4>Location</h4>
+                                <hr />
+                                <p>{this.state.location}</p>
                             </div>)}
-                            {this.state.website && (<div className="row">
-                                <p className="col-md-2 fw-bold">Website:</p>
-                                <p className="col-md-10">{this.state.website}</p>
+                            {this.state.website && (<div className="row mb-2">
+                                <h4>Website</h4>
+                                <hr />
+                                <p>{this.state.website}</p>
                             </div>)}
-                            {this.state.githubUsername && (<div className="row">
-                                <p className="col-md-2 fw-bold">Github:</p>
-                                <p className="col-md-10">{this.state.githubUsername}</p>
+                            {this.state.githubUsername && (<div className="row mb-2">
+                                <h4>Github</h4>
+                                <hr />
+                                <p>{this.state.githubUsername}</p>
                             </div>)}
                         </div>
                     </div>
