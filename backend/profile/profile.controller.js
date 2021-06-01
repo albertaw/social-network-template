@@ -57,7 +57,7 @@ exports.createOrUpdate = (req, res) => {
                         { user: req.user.id }, 
                         { $set: profileFields }, 
                         { new: true }
-                    ).then(profile => res.json(profile)).catch(err => res.send(err));
+                    ).populate('user', 'name').then(profile => res.json(profile)).catch(err => res.send(err));
                 }).catch(err => res.send(err));
             // otherwise create a new profile
             } else {
@@ -67,7 +67,7 @@ exports.createOrUpdate = (req, res) => {
                         res.status(400).json(errors);
                     }
 
-                    new Profile(profileFields).save().then(profile => res.json(profile)).catch(err => res.send(err));;
+                    new Profile(profileFields).save().populate('user', 'name').then(profile => res.json(profile)).catch(err => res.send(err));;
                 })
                 .catch(err => res.send(err));
             }
