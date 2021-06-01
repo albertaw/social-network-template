@@ -45,22 +45,28 @@ class Profile extends Component {
     }
 
     render() {
+        const { errors } = this.state; 
+        let emptyView;
+        if(errors) {
+            emptyView = <p className="center">{errors.noprofile}</p>
+        }
         return (
             <div>
                 <Navbar />
                 <div className="container">
-                <   div className="row">
+                    <div className="row">
                         <div className="col-md-6 offset-md-3">
-                            <h2 className="mt-5 text-center">{this.state.name}</h2>
-                            <p className="lead text-center">@{this.state.username}</p>
+                            {emptyView}
+                            {this.state.name && (<h2 className="mt-5 text-center">{this.state.name}</h2>)}
+                            {this.state.username && (<p className="lead text-center">@{this.state.username}</p>)}
                             {this.state.bio && (<div className="row">
                                 <p className="col-md-2 fw-bold">Bio:</p>
                                 <p className="col-md-10">{this.state.bio}</p>
                             </div>)}
-                            <div className="row">
+                            {this.state.skills && (<div className="row">
                                 <p className="col-md-2 fw-bold">Skills:</p>
                                 <p className="col-md-10">{this.state.skills}</p>
-                            </div>
+                            </div>)}
                             {this.state.location && (<div className="row">
                                 <p className="col-md-2 fw-bold">Location:</p>
                                 <p className="col-md-10">{this.state.location}</p>

@@ -69,6 +69,14 @@ exports.createOrUpdate = (req, res) => {
         .catch(err => res.send(err));
 }
 
+exports.getById = (req, res) => {
+    Profile.findById(req.params.id)
+        .then(profile => {
+            res.json(profile);
+        })
+        .catch(err => res.json(err));
+}
+
 exports.getByUsername = (req, res) => {
     const errors = {};
     Profile.findOne({ username: req.params.username})
