@@ -41,19 +41,24 @@ exports.createOrUpdate = (req, res) => {
     if(req.body.bio) profileFields.bio = req.body.bio;
     if(req.body.githubUsername) profileFields.githubUsername = req.body.githubUsername;
     if(typeof req.body.skills !== 'undefined') {
-        let skills = req.body.skills.split(',');
-        skills = skills.map(x => x.trim());
-        profileFields.skills = skills;
+        profileFields.skills = req.body.skills;
     }
     //if updating a profile
     Profile.findOne({ user: req.user.id })
         .then(profile => {
             if(profile) {
-                Profile.findOneAndUpdate(
-                    { user: req.user.id }, 
-                    { $set: profileFields }, 
-                    { new: true }
-                ).then(profile => res.json(profile));
+                Profile.findOne({ username: profileFields.username }).then(profile => {
+                    if(profile) {
+                        errors.username = "That username already exists";
+                        res.status(400).json(errors);
+                    }
+
+                    Profile.findOneAndUpdate(
+                        { user: req.user.id }, 
+                        { $set: profileFields }, 
+                        { new: true }
+                    ).then(profile => res.json(profile)).catch(err => res.send(err));
+                }).catch(err => res.send(err));
             // otherwise create a new profile
             } else {
                 Profile.findOne({ username: profileFields.username }).then(profile => {
@@ -62,8 +67,9 @@ exports.createOrUpdate = (req, res) => {
                         res.status(400).json(errors);
                     }
 
-                    new Profile(profileFields).save().then(profile => res.json(profile));
+                    new Profile(profileFields).save().then(profile => res.json(profile)).catch(err => res.send(err));;
                 })
+                .catch(err => res.send(err));
             }
         })
         .catch(err => res.send(err));

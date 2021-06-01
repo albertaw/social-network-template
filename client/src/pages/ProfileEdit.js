@@ -57,18 +57,26 @@ class ProfileEdit extends Component {
 
     onSubmit(e) {
         e.preventDefault();
+        let skills;
+        if(this.state.skills.trim()) {
+            skills = this.state.skills.split(',').map(x => x.trim());
+        } else {
+            skills = this.state.skills.trim();
+        }
+       
         const profileData = {
             username: this.state.username,
             bio: this.state.bio,
             location: this.state.location,
-            skills: this.state.skills,
+            skills: skills,
             website: this.state.website,
             githubUsername: this.state.githubUsername
         }
-
+        
         axios.post('/api/profiles', profileData)
             .then(res => {
-                this.props.history.push('/dashboard');
+                this.setState({errors: {}});
+                alert("Profile updated");
             })
             .catch(err => {
                 this.setState({errors: err.response.data});

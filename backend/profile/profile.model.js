@@ -8,7 +8,8 @@ const ProfileSchema = new mongoose.Schema({
     username: {
         type: String,
         required: true,
-        maxlength: 40
+        maxlength: 40,
+        lowercase: true
     },
     bio: {
         type: String,
