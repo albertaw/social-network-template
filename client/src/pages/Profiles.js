@@ -24,6 +24,12 @@ class Profiles extends Component {
 
 
     render() {
+        let profilesView;
+        if (this.state.profiles.length === 0) {
+            profilesView = <p className="text-center">There are no profiles</p>
+        } else {
+            profilesView = <ProfileList profiles={this.state.profiles} />
+        }
         return (
             <div>
                 <Navbar />
@@ -31,7 +37,7 @@ class Profiles extends Component {
                     <div className="col-md-6 offset-md-3">
                         <div className="row">
                             <h2 className="mt-5 mb-5 fw-bold text-center">Users</h2>
-                            <ProfileList profiles={this.state.profiles} />
+                            {profilesView}
                         </div>
                     </div>
                 </div>
