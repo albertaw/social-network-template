@@ -26,9 +26,9 @@ class Profiles extends Component {
     render() {
         let profilesView;
         if (this.state.profiles.length === 0) {
-            profilesView = <p className="text-center">There are no profiles</p>
+            profilesView = <p className="text-center center">There are no profiles</p>
         } else {
-            profilesView = <ProfileList profiles={this.state.profiles} />
+            profilesView = <ProfileList posts={this.state.posts} />
         }
         return (
             <div>
@@ -36,7 +36,6 @@ class Profiles extends Component {
                 <div className="container">
                     <div className="col-md-6 offset-md-3">
                         <div className="row">
-                            <h2 className="mt-5 mb-5 fw-bold text-center">Users</h2>
                             {profilesView}
                         </div>
                     </div>

@@ -116,10 +116,6 @@ exports.getAll = (req, res) => {
     Profile.find()
         .populate('user', 'name')
         .then(profiles => {
-            if(!profiles) {
-                errors.noprofile = 'There are no profiles';
-                return res.status(404).json(errors);
-            }
             res.json(profiles);
         })
         .catch(err => {

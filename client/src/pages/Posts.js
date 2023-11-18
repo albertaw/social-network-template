@@ -27,7 +27,7 @@ class Posts extends Component {
     render() {
         let postsView;
         if (this.state.posts.length === 0) {
-            postsView = <p className="text-center">No posts have been created</p>
+            postsView = <p className="text-center center">No posts have been created</p>
         } else {
             postsView = <PostList posts={this.state.posts} />
         }

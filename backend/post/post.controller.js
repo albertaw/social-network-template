@@ -7,8 +7,10 @@ exports.getAll = (req, res) => {
     Post.find()
         .populate('user', 'name')
         .sort({createdAt: 'desc'})
-        .then(posts => res.json(posts))
-        .catch(err => res.status(404).send({nopostsfound: 'No posts found'}));
+        .then(posts => {
+            res.json(posts)
+        })
+        .catch(err => res.status(404).send({noposts: 'No posts found'}));
 }
 
 exports.create = (req, res) => {
