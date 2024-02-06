@@ -54,10 +54,17 @@ class Navbar extends Component {
         return (
             <div className="navbar navbar-expand-sm navbar-dark bg-dark">
                 <div className="container">
-                    <ul className="navbar-nav">
-                        <li className="navbar-brand">Dev Social</li>
-                    </ul>
-                    <ul className="navbar-nav"> 
+                    {
+                        !isAuthenticated
+                        ?
+                        <ul className="navbar-nav">
+                            <li className="navbar-brand"><Link className="nav-link" to="/">Dev Social</Link></li>
+                        </ul>
+                        :
+                        null
+                    }
+                    
+                    <ul className="navbar-nav ms-auto"> 
                         <li className="nav-item"><Link className="nav-link" to="/users">Users</Link></li>
                         <li className="nav-item"><Link className="nav-link" to="/posts">Posts</Link></li>
                         { isAuthenticated ? authLinks : null }

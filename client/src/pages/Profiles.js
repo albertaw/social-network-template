@@ -28,13 +28,13 @@ class Profiles extends Component {
         if (this.state.profiles.length === 0) {
             profilesView = <p className="text-center center">There are no profiles</p>
         } else {
-            profilesView = <ProfileList posts={this.state.posts} />
+            profilesView = <ProfileList profiles={this.state.profiles} />
         }
         return (
             <div>
                 <Navbar />
                 <div className="container">
-                    <div className="col-md-6 offset-md-3">
+                    <div className="col-md-6 offset-md-3 mt-3">
                         <div className="row">
                             {profilesView}
                         </div>
