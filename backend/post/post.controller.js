@@ -10,7 +10,8 @@ exports.getAll = (req, res) => {
         .then(posts => {
             res.json(posts)
         })
-        .catch(err => res.status(404).send({noposts: 'No posts found'}));
+        //.catch(err => res.status(404).send({noposts: 'No posts found'}));
+        .catch(err => res.send(err))
 }
 
 exports.create = (req, res) => {
