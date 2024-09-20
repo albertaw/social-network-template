@@ -11,9 +11,8 @@ const post = require('./backend/post/post.routes');
 const app = express();
 
 const db = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/devsocial';
-
 mongoose
-    .connect(db)
+    .connect(db, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => console.log('MongoDB connected'))
     .catch(err => console.log(err));
 
