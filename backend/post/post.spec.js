@@ -3,7 +3,7 @@ const Post = require('./post.model');
 const User = require('../user/user.model');
 const mongoose = require('mongoose');
 const ObjectId = mongoose.Types.ObjectId;
-const { boot, shutdown, port} = require('../../server');
+const { boot, shutdown, port } = require('../../server');
 const url = 'http://localhost:' + port;
 let userId;
 let token;

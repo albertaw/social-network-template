@@ -34,7 +34,9 @@
     "mocha": "^10.7.3",
     "mongodb-memory-server": "^10.1.2",
     "nodemon": "^3.0.3",
-    "superagent": "^10.1.0"
+    "superagent": "^10.1.0",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1"
   },
   "engines": {
     "node": "16.x.x"

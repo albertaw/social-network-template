@@ -6,7 +6,6 @@ exports.getAll = async (req, res) => {
         const posts = await Post.find().populate('user').sort({createdAt: 'desc'})
         res.json(posts)
     } catch (err) {
-        console.error(err);
         res.status(404).send(err)
     }
 }
@@ -39,7 +38,7 @@ exports.remove = async (req, res) => {
     try {
         await Post.findByIdAndDelete(req.params.id);
         res.json({ success: true });
-    } catch (error) {
+    } catch (err) {
         res.status(404).json({ message: 'No post found with that id'});
     }
 }

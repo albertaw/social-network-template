@@ -4,6 +4,8 @@ const bodyParser = require('body-parser');
 const logger = require ('morgan');
 const path = require('path');
 const passport = require('passport');
+const swaggerUi = require('swagger-ui-express');
+const swagger = require('./swagger');
 const user = require('./backend/user/user.routes');
 const profile = require('./backend/profile/profile.routes');
 const post = require('./backend/post/post.routes');
@@ -31,6 +33,7 @@ app.use(function(req, res, next) {
 app.use(user);
 app.use(profile);
 app.use(post);
+app.use(swagger);
 
 app.get('*', (req, res) => {                       
     res.sendFile(path.resolve(__dirname, './client/build', 'index.html'));                               
