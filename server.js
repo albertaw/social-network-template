@@ -7,12 +7,13 @@ const passport = require('passport');
 const user = require('./backend/user/user.routes');
 const profile = require('./backend/profile/profile.routes');
 const post = require('./backend/post/post.routes');
+const { createServer } = require('node:http');
 
 const app = express();
 
 const db = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/devsocial';
 mongoose
-    .connect(db, { useNewUrlParser: true, useUnifiedTopology: true })
+    .connect(db)
     .then(() => console.log('MongoDB connected'))
     .catch(err => console.log(err));
 
@@ -36,4 +37,22 @@ app.get('*', (req, res) => {
 });
 
 const port = process.env.PORT || 5000;
-app.listen(port, () => console.log(`Server running on port ${port}`));
+const server = createServer(app);
+const boot = () => {
+	server.listen(port, () => console.log(`Server running on port ${port}`));
+}
+const shutdown = () => {
+	server.close();
+	mongoose.connection.close();
+	console.log('server closed');
+}
+
+if (require.main === module) {  //if this file is being run directly
+	boot();
+} else {
+	console.info('Running app as a module');
+	exports.boot = boot;
+	exports.shutdown = shutdown;
+	exports.port = port;
+}
+

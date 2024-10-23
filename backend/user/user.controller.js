@@ -10,6 +10,7 @@ exports.create = (req, res) => {
     const { errors, isValid } = validateRegisterInput(req.body);
 
     if(!isValid) {
+        console.log('not valid: ', errors);
         return res.status(400).json(errors);
     }
     User.findOne({ email: req.body.email })
@@ -18,6 +19,7 @@ exports.create = (req, res) => {
                 errors.email = 'Email already exists';
                 return res.status(400).json(errors);
             } else {
+
                 const newUser = new User({
                     name: req.body.name,
                     email: req.body.email,
@@ -29,7 +31,7 @@ exports.create = (req, res) => {
                         if (err) throw err;
                         newUser.password = hash;
                         newUser.save()
-                            .then(user => res.json(user))
+                            .then(user => res.json(newUser))
                             .catch(err => console.log(err));
                     });
                 });

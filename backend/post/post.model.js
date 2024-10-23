@@ -7,36 +7,9 @@ const PostSchema = new mongoose.Schema({
     },
     text: { 
         type: String, 
-        maxlength: 82,
-        required: true
-    },
-    likes: [
-        {
-            user: {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: 'users'
-            }
-        }
-    ],
-    comments: [
-        {
-            user: {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: 'users'
-            },
-            text: {
-                type: String,
-                required: true
-            },
-            name: {
-                type: String
-            },
-            date: {
-                type: Date,
-                default: Date.now
-            }
-        }
-    ],
+        maxLength: [82, 'Post must be between 1 and 82 characters'],
+        required: [true, 'Post must be between 1 and 82 characters']
+    }
 }, { timestamps: true });
 
 module.exports = Post = mongoose.model('posts', PostSchema);

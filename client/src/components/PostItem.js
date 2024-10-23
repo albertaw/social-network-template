@@ -8,7 +8,7 @@ function PostItem(props) {
 				<div className="card-body">
 					<span className="card-title fw-bold">{props.name}</span>
 					<p className="card-text mb-1 mt-1">{props.text}</p>
-                    <span className="text-muted">{moment(props.createdAt).format('MMM D, YYYY')}</span>
+            <span className="text-muted">{moment(props.createdAt).format('MMM D, YYYY')}</span>
 				</div>
 			</div>
 		</li>
