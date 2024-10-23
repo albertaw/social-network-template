@@ -4,7 +4,7 @@ A web app for developers to post news about their projects, events,
 or anything tech related. Users can sign up for accounts and create 
 a profile with their skills and bio for others to see.
 
-See the live demo here: https://alberta-social.herokuapp.com/
+See the live demo [here](https://alberta-social-ae526b5c0c2e.herokuapp.com/)
 
 
 ## Installation
