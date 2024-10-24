@@ -20,7 +20,7 @@ const options = {
       bearerAuth: []
     }]
   },
-  apis: ['./backend/**/*.routes.js'], // files containing annotations as above
+  apis: ['./backend/**/*.routes.js']
 };
 const swaggerJSDoc = require('swagger-jsdoc');
 const swaggerSpec = swaggerJSDoc(options);

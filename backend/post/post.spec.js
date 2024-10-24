@@ -2,7 +2,6 @@ const axios = require('axios');
 const Post = require('./post.model');
 const User = require('../user/user.model');
 const mongoose = require('mongoose');
-const ObjectId = mongoose.Types.ObjectId;
 const { boot, shutdown, port } = require('../../server');
 const url = 'http://localhost:' + port;
 let userId;
@@ -47,7 +46,7 @@ beforeEach(async () => {
 
 afterEach(async () => {
 	await mongoose.connection.dropCollection('posts');
-})
+});
 
 afterAll(async () => {
 	await mongoose.connection.dropDatabase();

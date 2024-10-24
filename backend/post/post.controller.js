@@ -3,7 +3,7 @@ const Post = require('./post.model');
 
 exports.getAll = async (req, res) => {
     try {
-        const posts = await Post.find().populate('user').sort({createdAt: 'desc'})
+        const posts = await Post.find({}).populate('user').sort({createdAt: 'desc'})
         res.json(posts)
     } catch (err) {
         res.status(404).send(err)

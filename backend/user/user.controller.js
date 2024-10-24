@@ -6,41 +6,47 @@ const keys = require('../../config/keys');
 const validateRegisterInput = require('../validation/register');
 const validateLoginInput = require('../validation/login');
 
-exports.create = (req, res) => {
+exports.create = async (req, res) => {
     const { errors, isValid } = validateRegisterInput(req.body);
 
     if(!isValid) {
-        console.log('not valid: ', errors);
         return res.status(400).json(errors);
     }
-    User.findOne({ email: req.body.email })
-        .then(user => {
-            if(user) {
-                errors.email = 'Email already exists';
-                return res.status(400).json(errors);
-            } else {
 
-                const newUser = new User({
-                    name: req.body.name,
-                    email: req.body.email,
-                    password: req.body.password
-                });
+    try {
+        const user = await User.findOne({ email: req.body.email });
 
-                bcrypt.genSalt(10, (err, salt) => {
-                    bcrypt.hash(newUser.password, salt, (err, hash) => {
-                        if (err) throw err;
-                        newUser.password = hash;
-                        newUser.save()
-                            .then(user => res.json(newUser))
-                            .catch(err => console.log(err));
-                    });
+        if(user) {
+            errors.email = 'Email already exists';
+            return res.status(400).json(errors);
+        } else {
+
+            const newUser = new User({
+                name: req.body.name,
+                email: req.body.email,
+                password: req.body.password
+            });
+
+            bcrypt.genSalt(10, (err, salt) => {
+                bcrypt.hash(newUser.password, salt, (err, hash) => {
+                    if (err) throw err;
+                    newUser.password = hash;
+                    newUser.save()
+                        .then(user => {
+                            return res.json(user)
+                        })
+                        .catch(err => {
+                            return res.send(err)
+                        });
                 });
-            }
-        })
-        .catch(err => res.send(err));
+            });
+        }
+    } catch (err) {
+        return res.send(err)
+    }
 }
 
-exports.login = (req, res) => {
+exports.login = async (req, res) => {
     const { errors, isValid } = validateLoginInput(req.body);
 
     if(!isValid) {
@@ -50,36 +56,30 @@ exports.login = (req, res) => {
     const email = req.body.email;
     const password = req.body.password;
 
-    User.findOne({email})
-        .then(user => {
-            if(!user) {
-                errors.email = 'User not found';
-                return res.status(404).json(errors);
-            }
+    try {
+        const user = await User.findOne({email});
 
-            bcrypt.compare(password, user.password)
-                .then(isMatch => {
-                    if(isMatch) {
-                        const payload = { id: user.id, name: user.name };
-                        jwt.sign(payload, keys.secretOrKey, { expiresIn: '1w' }, (err, token) => {
-                            res.json({success: true, token: 'Bearer ' + token });
-                        });
+        if(!user) {
+            errors.email = 'Email or password is incorrect';
+            return res.status(404).json(errors);
+        }
 
-                    } else {
-                        errors.password = 'Password incorrect';
-                        return res.status(400).json(errors);
-                    }
-                });
-        })
-        .catch(err => res.send(err));
-}
+        bcrypt.compare(password, user.password)
+            .then(isMatch => {
+                if(isMatch) {
+                    const payload = { id: user.id, name: user.name };
+                    jwt.sign(payload, keys.secretOrKey, { expiresIn: '1w' }, (err, token) => {
+                        return res.json({success: true, token: 'Bearer ' + token });
+                    });
 
-exports.remove = (req, res) => {
-    User.findByIdAndRemove(req.user.id)
-        .then(response => {
-            res.sendStatus(204);
-        })
-        .catch(err => res.send(err));
+                } else {
+                    errors.password = 'Email or password is incorrect';
+                    return res.status(404).json(errors);
+                }
+            });
+    } catch (err) {
+        return res.send(err);
+    }
 }
 
 exports.getCurrentUser = (req, res) => {
@@ -90,23 +90,32 @@ exports.getCurrentUser = (req, res) => {
     }); 
 }
 
-exports.getPosts = (req, res) => {
-    Post.find({user: req.params.id})
-        .populate('user', 'name')
-        .sort({createdAt: 'desc'})
-        .then(posts => {
-            res.json(posts)
-        })
-        .catch(err => {
-            res.send(err);
-        });
-
+exports.remove = async (req, res) => {
+    try {
+        await User.findByIdAndDelete(req.user.id);
+        res.sendStatus(204);
+    } catch (err) {
+        res.send(err);
+    }
 }
 
-exports.deletePosts = (req, res) => {
-    Post.deleteMany({user: req.user.id})
-        .then(response => {
-            res.sendStatus(204);
-        })
-        .catch(err => res.send(err));
+exports.getPosts = async (req, res) => {
+    try {
+        const posts = await Post.find({user: req.params.id})
+        .populate('user', 'name')
+        .sort({createdAt: 'desc'});
+
+        res.json(posts);
+    } catch (err) {
+        res.send(err);
+    }
+}
+
+exports.deletePosts = async (req, res) => {
+    try {
+        await Post.deleteMany({user: req.user.id});
+        res.sendStatus(204);
+    } catch (err) {
+        res.send(err);
+    }
 }
