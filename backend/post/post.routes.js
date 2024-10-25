@@ -76,7 +76,7 @@ router.get('/api/posts/:id', post.getById);
  *       - in: path
  *         name: id
  *         required: true
- *         description: Numeric id of the post to remove.
+ *         description: Id of the post to remove.
  *         schema:
  *           type: string
  *      responses:

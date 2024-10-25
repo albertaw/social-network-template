@@ -21,7 +21,7 @@ afterAll(async () => {
 });
 
 describe('User module', () => {
-	it('POST /api/users/', async () => {
+	it('POST /api/users', async () => {
 		const response = await axios.post(`${url}/api/users`, {
 			name: 'Test User',
 			email: 'test@example.com',
@@ -33,7 +33,7 @@ describe('User module', () => {
 		expect(response.data.email).toEqual('test@example.com');
 	});
 
-	it('POST /api/users/ passwords do not match error', async () =>	{
+	it('POST /api/users passwords do not match error', async () =>	{
 		expect.assertions(2);
 
 		try {
@@ -49,7 +49,7 @@ describe('User module', () => {
 		}
 	});
 
-	it('POST /api/users/ email exists error', async () => {
+	it('POST /api/users email exists error', async () => {
 		expect.assertions(2);
 		
 		try {
@@ -72,7 +72,7 @@ describe('User module', () => {
 		}
 	}); 
 
-	it('POST /api/users/ error bad email format', async () => {
+	it('POST /api/users error bad email format', async () => {
 		expect.assertions(2);
 		
 		try {
