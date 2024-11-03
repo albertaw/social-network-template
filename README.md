@@ -7,7 +7,7 @@ a profile with their skills and bio for others to see.
 See the live demo [here](https://alberta-social-ae526b5c0c2e.herokuapp.com/)
 
 
-## Installation
+## Getting Started
 
 ### Pre conditions
 
@@ -55,6 +55,14 @@ In your browser, go to localhost:5000
 
 Swagger documentation: localhost:500/api-docs
 
+
+### Run tests
+
+Execute tests for API endpoints:
+
+```bash
+npm test
+```
 
 
 
