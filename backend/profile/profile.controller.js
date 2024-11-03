@@ -3,32 +3,7 @@ const Profile = require('./profile.model');
 const User = require('../user/user.model');
 const validateProfileInput = require('../validation/profile');
 
-exports.getCurrentUserProfile = (req, res) => {
-    const errors = {};
-
-    Profile.findOne({ user: req.user.id })
-        .populate('user', 'name')
-        .then(profile => {
-            if(!profile) {
-                errors.noprofile = 'There is no profile for this user';
-                return res.status(404).json(errors);
-            }
-            res.json(profile);
-        })
-        .catch(err => {
-            res.status(404).send(err);
-        });
-}
-
-exports.deleteCurrentUserProfile = (req, res) => {
-    Profile.findOneAndDelete({user: req.user.id})
-        .then(response => {
-            res.sendStatus(204);
-        })
-        .catch(err => res.send(err));
-}
-
-exports.createOrUpdate = (req, res) => {
+exports.createOrUpdate = async (req, res) => {
     const { errors, isValid } = validateProfileInput(req.body);
      if(!isValid) {
          return res.status(400).json(errors);
@@ -43,82 +18,97 @@ exports.createOrUpdate = (req, res) => {
     if(typeof req.body.skills !== 'undefined') {
         profileFields.skills = req.body.skills;
     }
-    //if updating a profile
-    Profile.findOne({ user: req.user.id })
-        .then(profile => {
-            if(profile) {
-                Profile.findOne({ $and: [{ username: profileFields.username }, {user: {$ne: req.user.id}}]}).then(profile => {
-                    if(profile) {
-                        errors.username = "That username already exists";
-                        res.status(400).json(errors);
-                    }
 
-                    Profile.findOneAndUpdate(
-                        { user: req.user.id }, 
-                        { $set: profileFields }, 
-                        { new: true }
-                    ).populate('user', 'name').then(profile => res.json(profile)).catch(err => res.send(err));
-                }).catch(err => res.send(err));
-            // otherwise create a new profile
-            } else {
-                Profile.findOne({ username: profileFields.username }).then(profile => {
-                    if(profile) {
-                        errors.username = "That username already exists";
-                        res.status(400).json(errors);
-                    }
-
-                    new Profile(profileFields).save().populate('user', 'name').then(profile => res.json(profile)).catch(err => res.send(err));;
-                })
-                .catch(err => res.send(err));
+    try {
+        const profile = await Profile.findOne({ user: req.user.id });
+        if(profile) {
+            const existingProfile = await Profile.findOne({ $and: [{ username: profileFields.username }, {user: {$ne: req.user.id}}]})
+            if(existingProfile) {
+                errors.username = "That username already exists";
+                console.log(errrors)
+                return res.status(400).json(errors);
             }
-        })
-        .catch(err => res.send(err));
+            const updatedProfile = await Profile.findOneAndUpdate(
+                { user: req.user.id }, 
+                { $set: profileFields }, 
+                { new: true }
+            )
+            return res.json(updatedProfile);
+        } else {
+            const existingProfile = await Profile.findOne({ username: profileFields.username });
+            if(existingProfile) {
+                errors.username = "That username already exists";
+                console.log(errors)
+                return res.status(400).json(errors);
+            }
+            const newProfile = await new Profile(profileFields).save();
+            return res.json(newProfile);
+        }
+    } catch (err) {
+        console.log(err)
+        res.send(err);
+    }
 }
 
-exports.getById = (req, res) => {
-    Profile.findById(req.params.id)
-        .then(profile => {
-            res.json(profile);
-        })
-        .catch(err => res.json(err));
+exports.getById = async (req, res) => {
+    try {
+        const profile = await Profile.findById(req.params.id).populate('user', 'name');
+        res.json(profile);
+    } catch (err) {
+        res.json(err)
+    }
 }
 
-exports.getByUsername = (req, res) => {
+exports.getByUsername = async (req, res) => {
     const errors = {};
-    Profile.findOne({ username: req.params.username})
-        .populate('user', 'name')
-        .then(profile => {
-            if(!profile) {
-                errors.noprofile = 'There is no profile for this user';
-                res.status(404).json(errors)
-            }
-            res.json(profile);
-        })
-        .catch(err => res.status(404).json(err));
+
+    try {
+        const profile = await Profile.findOne({ username: req.params.username}).populate('user', 'name');
+        
+        if(!profile) {
+            errors.noprofile = 'There is no profile for this user';
+            console.log(errors)
+            res.status(404).json(errors)
+        }
+        res.json(profile);
+    } catch (err) {
+        console.log(err)
+        res.status(404).json(err);
+    }
 }
 
-exports.getByUserId = (req, res) => {
+exports.getAll = async (req, res) => {
+    try {
+        const profiles = await Profile.find().populate('user', 'name');
+        res.json(profiles);
+    } catch (err) {
+        res.status(404).json({ profile: 'There are no profiles'});
+    }
+}
+
+exports.getCurrentUserProfile = async (req, res) => {
     const errors = {};
-    Profile.findOne({ user: req.params.userId})
-        .populate('user', 'name')
-        .then(profile => {
-            if(!profile) {
-                errors.noprofile = 'There is no profile for this user';
-                res.status(404).json(errors)
-            }
-            res.json(profile);
-        })
-        .catch(err => res.status(404).json(err));
+
+    try {
+        const profile = await Profile.findOne({ user: req.user.id }).populate('user', 'name');
+
+        if(!profile) {
+            errors.noprofile = 'There is no profile for this user';
+            return res.status(404).json(errors);
+        }
+        res.json(profile);
+    } catch (err) {
+         res.status(404).send(err);
+    }
 }
 
-exports.getAll = (req, res) => {
-    errors = {};
-    Profile.find()
-        .populate('user', 'name')
-        .then(profiles => {
-            res.json(profiles);
-        })
-        .catch(err => {
-            res.status(404).json({ profile: 'There are no profiles'});
-        })
+exports.deleteCurrentUserProfile = async (req, res) => {
+    try {
+        await Profile.findOneAndDelete({user: req.user.id});
+        res.sendStatus(204);
+    } catch (err) {
+        res.send(err);
+    }
 }
+
+

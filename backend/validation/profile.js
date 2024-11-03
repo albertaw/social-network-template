@@ -13,7 +13,6 @@ module.exports = function validateProfileInput(data) {
     if(Validator.isEmpty(data.username)) {
         errors.username = 'Username is required';
     }
-    console.log(isEmpty(data.skills))
     if(isEmpty(data.skills)) {
         errors.skills = 'Skills field is required';
     }
