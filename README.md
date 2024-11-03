@@ -53,6 +53,9 @@ npm start
 
 In your browser, go to localhost:5000
 
+Swagger documentation: localhost:500/api-docs
+
+
 
 
 
