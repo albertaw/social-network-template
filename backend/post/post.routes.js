@@ -17,6 +17,7 @@ const post = require('./post.controller');
  *          description: Returns an error object.
  */
 router.get('/api/posts', post.getAll);
+
 /**
  *  @openapi
  *  /api/posts:
@@ -44,6 +45,7 @@ router.get('/api/posts', post.getAll);
  *          description: Returns an error object with a message.
  */
 router.post('/api/posts', passport.authenticate('jwt', { session: false }), post.create)
+
 /**
  *  @openapi
  *  /api/posts/{id}:
@@ -65,6 +67,7 @@ router.post('/api/posts', passport.authenticate('jwt', { session: false }), post
  *          description: Returns an error object with a message.
  */
 router.get('/api/posts/:id', post.getById);
+
 /**
  *  @openapi
  *  /api/posts/{id}:

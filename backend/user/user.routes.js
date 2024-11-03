@@ -33,6 +33,7 @@ const passport = require('passport');
  *          description: Returns an object with a message of the validation errors.
  */
 router.post('/api/users', user.create);
+
 /**
  *  @openapi
  *  /api/users/login:
@@ -60,6 +61,7 @@ router.post('/api/users', user.create);
  *          description: Returns an object with a message of the validation errors.
  */
 router.post('/api/users/login', user.login);
+
 /**
  *  @openapi
  *  /api/user:
@@ -72,6 +74,7 @@ router.post('/api/users/login', user.login);
  *          description: Returns the user's info.
  */
 router.get('/api/user', passport.authenticate('jwt', { session: false }), user.getCurrentUser);
+
 /**
  *  @openapi
  *  /api/user:
@@ -84,6 +87,7 @@ router.get('/api/user', passport.authenticate('jwt', { session: false }), user.g
  *          description: Successful response.
  */
 router.delete('/api/user', passport.authenticate('jwt', { session: false }), user.remove);
+
 /**
  *  @openapi
  *  /api/users/{id}/posts:
@@ -103,6 +107,7 @@ router.delete('/api/user', passport.authenticate('jwt', { session: false }), use
  *          description: Returns a list of posts.
  */
 router.get('/api/users/:id/posts', user.getPosts);
+
 /**
  *  @openapi
  *  /api/user/posts:
