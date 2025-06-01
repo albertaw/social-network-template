@@ -64,7 +64,69 @@ Execute tests for API endpoints:
 npm test
 ```
 
+## API 
 
+### Create a user account
 
+POST /api/users
 
+### Login a user
+
+POST /api/users/login
+
+### Get the authenticated user's info
+
+GET /api/user
+
+### Delete the authenticated user
+
+DELETE /api/user
+
+### Get a user's posts
+
+GET /api/users/{id}/posts
+
+### Delete the authenticated user's posts
+
+DELETE /api/user/posts
+
+### Create a user profile
+
+POST /api/profiles
+
+### Get a profile by Id
+
+GET /api/profiles/{id}
+
+### Get a profile by username
+
+GET /api/profiles/username/{username}
+
+### List all profiles
+
+GET /api/profiles
+
+### Get the authenticated user's profile
+
+GET /api/profile
+
+### Remove the authenticated user's profile 
+
+DELETE /api/profile
+
+### List all posts
+
+GET /api/posts
+
+### Create a post
+
+POST /api/posts
+
+### List post by Id
+
+GET /api/posts/{id}
+
+### Remove post by Id
+
+DELETE /api/posts/{id}
 
